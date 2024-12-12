@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+
+        <!-- Vista de la lista de esdeveniments -->
+        <record model="ir.ui.view" id="esdeveniments.list">
+            <field name="name">Llista de Esdeveniments</field>
+            <field name="model">esdeveniments.esdeveniments</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nom"/>
+                    <field name="tipo"/>
+                    <field name="data_inici"/>
+                    <field name="data_fi"/>
+                    <field name="lloc"/>
+                    <field name="descripcio"/>
+                    <field name="imatge"/>
+                    <field name="llista_participants"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de la lista de participants -->
+        <record model="ir.ui.view" id="esdeveniments.list2">
+            <field name="name">Llista de Participants</field>
+            <field name="model">esdeveniments.participants</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nom"/>
+                    <field name="cognoms"/>
+                    <field name="dni"/>
+                    <field name="diners"/>
+                    <field name="llista_esdeveniments"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista Kanban de Esdeveniments -->
+        <record model="ir.ui.view" id="esdeveniments.kanban">
+            <field name="name">Esdeveniments Kanban</field>
+            <field name="model">esdeveniments.esdeveniments</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="tipo"/>
+                    <field name="nom"/>
+                    <field name="data_inici"/>
+                    <field name="data_fi"/>
+                    <field name="imatge"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <div>
+                                    <strong><field name="nom"/></strong>
+                                </div>
+                                <div>
+                                    <small>
+                                        <span>Inici:</span> <field name="data_inici"/>
+                                    </small>
+                                </div>
+                                <div>
+                                    <small>
+                                        <span>Fi:</span> <field name="data_fi"/>
+                                    </small>
+                                </div>
+                                <div>
+                                    <span>Tipus:</span> <field name="tipo"/>
+                                </div>
+                                <div>
+                                    <img class="oe_kanban_image"
+                                        t-att-src="'/web/image/esdeveniments.esdeveniments/' + record.id.value + '/imatge'"
+                                        alt="Imatge del esdeveniment"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="esdeveniments.calendar">
+            <field name="name">Esdeveniments Calendari</field>
+            <field name="model">esdeveniments.esdeveniments</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendari" date_start="data_inici" date_stop="data_fi" color="tipo">
+                    <field name="nom"/>
+                    <field name="tipo"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Acciones de ventana -->
+        <record model="ir.actions.act_window" id="esdeveniments.action_window">
+            <field name="name">Esdeveniments</field>
+            <field name="res_model">esdeveniments.esdeveniments</field>
+            <field name="view_mode">tree,form,kanban,calendar</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="esdeveniments.action_window2">
+            <field name="name">Participants</field>
+            <field name="res_model">esdeveniments.participants</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú principal -->
+        <menuitem name="esdeveniments" id="esdeveniments.menu_root"/>
+
+        <!-- Menú de categorías -->
+        <menuitem name="Empresa Gestio" id="esdeveniments.menu_1" parent="esdeveniments.menu_root"/>
+
+        <!-- Acciones dentro del menú -->
+        <menuitem name="Esdeveniments" id="esdeveniments.menu_1_list" parent="esdeveniments.menu_1"
+                  action="esdeveniments.action_window"/>
+        <menuitem name="Participants" id="esdeveniments.menu_2_list" parent="esdeveniments.menu_1"
+                  action="esdeveniments.action_window2"/>
+
+    </data>
+</odoo>
